@@ -1,0 +1,26 @@
+{
+  "name": "sitegeist/monocle-presentationobjects",
+  "description": "An adapter to simplify and improve handling of PresentationObjects in Monocle",
+  "type": "neos-package",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bernhard Schmitt",
+      "email": "schmitt@sitegeist.de"
+    }
+  ],
+  "require": {
+    "sitegeist/monocle": "~7.3 || dev-master",
+    "packagefactory/atomicfusion-presentationobjects": "~3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sitegeist\\Monocle\\PresentationObjects\\": "Classes"
+    }
+  },
+  "extra": {
+    "neos": {
+      "package-key": "Sitegeist.Monocle.PresentationObjects"
+    }
+  }
+}
