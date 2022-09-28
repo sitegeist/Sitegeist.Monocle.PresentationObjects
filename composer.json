@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "sitegeist/monocle": "~8.0 || dev-master",
+    "sitegeist/monocle": "~7.6 || dev-master",
     "packagefactory/atomicfusion-presentationobjects": "~4.0"
   },
   "autoload": {
