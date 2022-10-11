@@ -1,0 +1,9 @@
+
+Neos:
+  Neos:
+    fusion:
+      autoInclude:
+        "Sitegeist.Monocle.PresentationObjects": true
+  Fusion:
+    defaultContext:
+      "Monocle.PresentationObjects": Sitegeist\Monocle\PresentationObjects\Infrastructure\PresentationObjectHelper

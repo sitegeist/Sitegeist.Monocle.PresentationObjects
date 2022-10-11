@@ -1,2 +1,5 @@
 Sitegeist\Monocle\Domain\PrototypeDetails\Props\PropsCollectionFactoryInterface:
   className: Sitegeist\Monocle\PresentationObjects\Infrastructure\PropsCollectionFactory
+
+Sitegeist\Monocle\Domain\PrototypeDetails\PrototypeDetailsFactoryInterface:
+  className: Sitegeist\Monocle\PresentationObjects\Infrastructure\PrototypeDetailsFactory
