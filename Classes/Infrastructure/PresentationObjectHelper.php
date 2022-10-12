@@ -21,6 +21,7 @@ use PackageFactory\AtomicFusion\PresentationObjects\Domain\Component\Props;
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\Component\PropType\IsComponent;
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\PackageKey;
 use Neos\Flow\Annotations as Flow;
+use PackageFactory\AtomicFusion\PresentationObjects\Presentation\Slot\SlotInterface;
 
 class PresentationObjectHelper implements ProtectedContextAwareInterface
 {
@@ -33,7 +34,7 @@ class PresentationObjectHelper implements ProtectedContextAwareInterface
     #[Flow\Inject]
     protected StyleguideCaseFactoryFactory $styleguideCaseFactoryFactory;
 
-    public function isPresentationObject(string $prototypeName)
+    public function isPresentationObject(string $prototypeName): bool
     {
         $componentName = ComponentName::fromInput(
             $prototypeName,
@@ -42,7 +43,7 @@ class PresentationObjectHelper implements ProtectedContextAwareInterface
         return IsComponent::isSatisfiedByClassName($componentName->getFullyQualifiedClassName());
     }
 
-    public function createPresentationObject(string $prototypeName, string $presentationFactoryClassName, ?string $useCaseId, array $editedProps)
+    public function createPresentationObject(string $prototypeName, string $presentationFactoryClassName, ?string $useCaseId, array $editedProps): SlotInterface
     {
         $presentationFactory = $this->styleguideCaseFactoryFactory->forPrototypeNameAndClassName($prototypeName, $presentationFactoryClassName);
         $presentationObject = $this->useCaseService->getPresentationObjectFromFactory($presentationFactory, $useCaseId);
