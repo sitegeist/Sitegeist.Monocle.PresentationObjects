@@ -1,0 +1,23 @@
+
+prototype(Sitegeist.Monocle:Preview.Prototype) {
+    renderer.renderer.@if.disableDefaultRenderingIfIsPresentationObject = ${!Monocle.PresentationObjects.isPresentationObject(prototypeName)}
+    renderer.@process.replaceDefaultRenderingIfIsPresentationObject = Neos.Fusion:Component {
+        @if.isPresentationObject = ${Monocle.PresentationObjects.isPresentationObject(prototypeName)}
+
+        presentationFactoryClassName = Neos.Fusion:Renderer {
+            renderPath = ${'/<' + props.prototypeName + '>/__meta/styleguide/__meta/presentationFactory'}
+        }
+        useCaseId = ${props.useCase}
+        editedProps = ${props.props}
+        prototypeName = ${props.prototypeName}
+
+        renderer = PackageFactory.AtomicFusion.PresentationObjects:Slot {
+            presentationObject = ${Monocle.PresentationObjects.createPresentationObject(
+                props.prototypeName,
+                props.presentationFactoryClassName,
+                props.useCaseId,
+                props.editedProps
+            )}
+        }
+    }
+}

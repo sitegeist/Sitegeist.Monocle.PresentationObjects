@@ -46,6 +46,12 @@ final class PropsCollectionFactory implements PropsCollectionFactoryInterface
     #[Flow\Inject]
     protected DefaultPropsCollectionFactory $defaultPropsCollectionFactory;
 
+    #[Flow\Inject]
+    protected StyleguideCaseFactoryFactory $styleguideCaseFactoryFactory;
+
+    #[Flow\Inject]
+    protected PropSerializationService $propSerializationService;
+
     public function fromPrototypeForPrototypeDetails(
         Prototype $prototype
     ): PropsCollectionInterface {
@@ -54,73 +60,78 @@ final class PropsCollectionFactory implements PropsCollectionFactoryInterface
             new PackageKey('Sitegeist.Monocle')
         );
 
-        if (IsComponent::isSatisfiedByClassName($componentName->getFullyQualifiedClassName())) {
-            $monocleProps = [];
-            foreach (Props::fromClassName($componentName->getFullyQualifiedClassName()) as $propName => $propType) {
-                switch (get_class($propType)) {
-                    case BoolPropType::class:
-                        $monocleProps[] = new Prop(
-                            PropName::fromString($propName),
-                            PropValue::fromAny(false),
-                            $this->editorFactory->checkbox()
-                        );
-                        break;
-                    case EnumPropType::class:
-                        /** @var \BackedEnum[] $cases */
-                        $cases = $propType->className::cases();
-                        $defaultCase = reset($cases);
-                        $selectBoxOptions = [];
-                        foreach ($cases as $case) {
-                            $selectBoxOptions[] = [
-                                'value' => $case->value,
-                                'label' => $case->value
-                            ];
-                        }
-                        $monocleProps[] = new Prop(
-                            PropName::fromString($propName),
-                            PropValue::fromAny($defaultCase->value),
-                            $this->editorFactory->selectBox([
-                                'options' => $selectBoxOptions
-                            ])
-                        );
-                        break;
-                    case FloatPropType::class:
-                        $monocleProps[] = new Prop(
-                            PropName::fromString($propName),
-                            PropValue::fromAny(84.72),
-                            $this->editorFactory->number('float')
-                        );
-                        break;
-                    case IntPropType::class:
-                        $monocleProps[] = new Prop(
-                            PropName::fromString($propName),
-                            PropValue::fromAny(8472),
-                            $this->editorFactory->number('integer')
-                        );
-                        break;
-                    case StringLikePropType::class:
-                    case StringPropType::class:
-                        $monocleProps[] = new Prop(
-                            PropName::fromString($propName),
-                            PropValue::fromAny('Text'),
-                            $this->editorFactory->text()
-                        );
-                        break;
-                    case UriPropType::class:
-                        $monocleProps[] = new Prop(
-                            PropName::fromString($propName),
-                            PropValue::fromAny('https://neos.io'),
-                            $this->editorFactory->text()
-                        );
-                        break;
-                    default:
-                }
-            }
-
-            return new PropsCollection(...$monocleProps);
-        } else {
+        if (IsComponent::isSatisfiedByClassName($componentName->getFullyQualifiedClassName()) === false) {
             // no presentation object component, fall back to default
             return $this->defaultPropsCollectionFactory->fromPrototypeForPrototypeDetails($prototype);
         }
+
+        $presentationFactory = $this->styleguideCaseFactoryFactory->forPrototype($prototype);
+        $defaultComponent = $presentationFactory->getDefaultCase();
+
+        $monocleProps = [];
+        foreach (Props::fromClassName($componentName->getFullyQualifiedClassName()) as $propName => $propType) {
+            switch (get_class($propType)) {
+                case BoolPropType::class:
+                    $monocleProps[] = new Prop(
+                        PropName::fromString($propName),
+                        PropValue::fromAny(
+                            $this->propSerializationService->serialize($propName, $propType, $defaultComponent)
+                        ),
+                        $this->editorFactory->checkbox()
+                    );
+                    break;
+                case EnumPropType::class:
+                    /** @var \BackedEnum[] $cases */
+                    $cases = $propType->className::cases();
+                    $selectBoxOptions = [];
+                    foreach ($cases as $case) {
+                        $selectBoxOptions[] = [
+                            'value' => $case->value,
+                            'label' => $case->value
+                        ];
+                    }
+                    $monocleProps[] = new Prop(
+                        PropName::fromString($propName),
+                        PropValue::fromAny(
+                            $this->propSerializationService->serialize($propName, $propType, $defaultComponent)
+                        ),
+                        $this->editorFactory->selectBox([
+                            'options' => $selectBoxOptions
+                        ])
+                    );
+                    break;
+                case FloatPropType::class:
+                    $monocleProps[] = new Prop(
+                        PropName::fromString($propName),
+                        PropValue::fromAny(
+                            $this->propSerializationService->serialize($propName, $propType, $defaultComponent)
+                        ),
+                        $this->editorFactory->number('float')
+                    );
+                    break;
+                case IntPropType::class:
+                    $monocleProps[] = new Prop(
+                        PropName::fromString($propName),
+                        PropValue::fromAny(
+                            $this->propSerializationService->serialize($propName, $propType, $defaultComponent)
+                        ),
+                        $this->editorFactory->number('integer')
+                    );
+                    break;
+                case StringLikePropType::class:
+                case StringPropType::class:
+                case UriPropType::class:
+                    $monocleProps[] = new Prop(
+                        PropName::fromString($propName),
+                        PropValue::fromAny(
+                            $this->propSerializationService->serialize($propName, $propType, $defaultComponent)
+                        ),
+                        $this->editorFactory->text()
+                    );
+                    break;
+                default:
+            }
+        }
+        return new PropsCollection(...$monocleProps);
     }
 }
