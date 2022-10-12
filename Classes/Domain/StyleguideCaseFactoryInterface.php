@@ -21,6 +21,6 @@ interface StyleguideCaseFactoryInterface
 {
     public function getDefaultCase(): SlotInterface;
 
-    /** @return \Traversable<string,SlotInterface> */
+    /** @return \Traversable<int|string,SlotInterface> */
     public function getUseCases(): \Traversable;
 }

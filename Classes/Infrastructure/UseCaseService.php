@@ -50,7 +50,8 @@ class UseCaseService
         return new UseCaseCollection(...$useCaseCollection);
     }
 
-    private function getUseCasesFromPresentationFactory($presentationFactory)
+    /** @return \Traversable<string,SlotInterface> */
+    private function getUseCasesFromPresentationFactory(StyleguideCaseFactoryInterface $presentationFactory): \Traversable
     {
         $existingKeys = [];
         foreach ($presentationFactory->getUseCases() as $key => $presentationObject) {
