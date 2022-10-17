@@ -1,8 +1,8 @@
 
 prototype(Sitegeist.Monocle:Preview.Prototype) {
-    renderer.renderer.@if.disableDefaultRenderingIfIsPresentationObject = ${!Monocle.PresentationObjects.isPresentationObject(prototypeName)}
+    renderer.renderer.@if.disableDefaultRenderingIfIsPresentationObject = ${!Monocle.PresentationObjects.isPresentationObject(props.prototypeName)}
     renderer.@process.replaceDefaultRenderingIfIsPresentationObject = Neos.Fusion:Component {
-        @if.isPresentationObject = ${Monocle.PresentationObjects.isPresentationObject(prototypeName)}
+        @if.isPresentationObject = ${Monocle.PresentationObjects.isPresentationObject(props.prototypeName)}
 
         presentationFactoryClassName = Neos.Fusion:Renderer {
             renderPath = ${'/<' + props.prototypeName + '>/__meta/styleguide/__meta/presentationFactory'}

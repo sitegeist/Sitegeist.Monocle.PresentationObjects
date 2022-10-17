@@ -22,6 +22,7 @@ use PackageFactory\AtomicFusion\PresentationObjects\Domain\Component\PropType\Is
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\PackageKey;
 use PackageFactory\AtomicFusion\PresentationObjects\Presentation\Slot\SlotInterface;
 use Neos\Flow\Annotations as Flow;
+use PackageFactory\AtomicFusion\PresentationObjects\Presentation\Slot\SlotInterface;
 
 class PresentationObjectHelper implements ProtectedContextAwareInterface
 {
