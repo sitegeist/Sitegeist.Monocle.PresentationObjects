@@ -3,3 +3,6 @@ Sitegeist\Monocle\Domain\PrototypeDetails\Props\PropsCollectionFactoryInterface:
 
 Sitegeist\Monocle\Domain\PrototypeDetails\PrototypeDetailsFactoryInterface:
   className: Sitegeist\Monocle\PresentationObjects\Infrastructure\PrototypeDetailsFactory
+
+PackageFactory\AtomicFusion\PresentationObjects\Domain\FactoryRendererInterface:
+  className: Sitegeist\Monocle\PresentationObjects\Domain\StyleguideCaseFactoryRenderer
