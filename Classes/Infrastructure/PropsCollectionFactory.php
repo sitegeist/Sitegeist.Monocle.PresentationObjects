@@ -65,8 +65,8 @@ final class PropsCollectionFactory implements PropsCollectionFactoryInterface
             return $this->defaultPropsCollectionFactory->fromPrototypeForPrototypeDetails($prototype);
         }
 
-        $presentationFactory = $this->styleguideCaseFactoryFactory->forPrototype($prototype);
-        $defaultComponent = $presentationFactory->getDefaultCase();
+        $caseFactory = $this->styleguideCaseFactoryFactory->forPrototype($prototype);
+        $defaultComponent = $caseFactory->getDefaultCase();
 
         $monocleProps = [];
         foreach (Props::fromClassName($componentName->getFullyQualifiedClassName()) as $propName => $propType) {

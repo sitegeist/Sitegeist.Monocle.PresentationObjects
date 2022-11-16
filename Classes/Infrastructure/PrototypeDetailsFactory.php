@@ -71,7 +71,7 @@ class PrototypeDetailsFactory implements PrototypeDetailsFactoryInterface
             return $this->defaultPropsCollectionFactory->forPrototype($prototype);
         }
 
-        $presentationFactory = $this->styleguideCaseFactoryFactory->forPrototype($prototype);
+        $caseFactory = $this->styleguideCaseFactoryFactory->forPrototype($prototype);
 
         return new PrototypeDetails(
             $prototype->getName(),
@@ -90,7 +90,7 @@ class PrototypeDetailsFactory implements PrototypeDetailsFactoryInterface
             $this->propsCollectionFactory
                 ->fromPrototypeForPrototypeDetails($prototype),
             /** @deprecated */ new PropSetCollection(),
-            $this->useCaseService->useCaseCollectionFromFactory($presentationFactory)
+            $this->useCaseService->useCaseCollectionFromFactory($caseFactory)
         );
     }
 }

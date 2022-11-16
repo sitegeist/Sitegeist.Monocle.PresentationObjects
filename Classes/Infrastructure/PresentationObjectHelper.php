@@ -44,10 +44,17 @@ class PresentationObjectHelper implements ProtectedContextAwareInterface
         return IsComponent::isSatisfiedByClassName($componentName->getFullyQualifiedClassName());
     }
 
-    public function createPresentationObject(string $prototypeName, string $presentationFactoryClassName, ?string $useCaseId, array $editedProps): SlotInterface
-    {
-        $presentationFactory = $this->styleguideCaseFactoryFactory->forPrototypeNameAndClassName($prototypeName, $presentationFactoryClassName);
-        $presentationObject = $this->useCaseService->getPresentationObjectFromFactory($presentationFactory, $useCaseId);
+    public function createPresentationObject(
+        string $prototypeName,
+        string $caseFactoryClassName,
+        ?string $useCaseId,
+        array $editedProps
+    ): SlotInterface {
+        $caseFactory = $this->styleguideCaseFactoryFactory->forPrototypeNameAndClassName(
+            $prototypeName,
+            $caseFactoryClassName
+        );
+        $presentationObject = $this->useCaseService->getPresentationObjectFromFactory($caseFactory, $useCaseId);
 
         if ($presentationObject->getPrototypeName() !== $prototypeName) {
             throw new \DomainException(

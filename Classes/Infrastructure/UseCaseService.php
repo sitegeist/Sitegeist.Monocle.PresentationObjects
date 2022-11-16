@@ -24,23 +24,23 @@ use Sitegeist\Monocle\PresentationObjects\Domain\StyleguideCaseFactoryInterface;
 
 class UseCaseService
 {
-    public function getPresentationObjectFromFactory(StyleguideCaseFactoryInterface $presentationFactory, ?string $useCaseId): SlotInterface
+    public function getPresentationObjectFromFactory(StyleguideCaseFactoryInterface $caseFactory, ?string $useCaseId): SlotInterface
     {
         if (!$useCaseId) {
-            return $presentationFactory->getDefaultCase();
+            return $caseFactory->getDefaultCase();
         }
-        foreach ($this->getUseCasesFromPresentationFactory($presentationFactory) as $key => $presentationObject) {
+        foreach ($this->getUseCasesFromCaseFactory($caseFactory) as $key => $presentationObject) {
             if ($useCaseId === $key) {
                 return $presentationObject;
             }
         }
-        throw new \DomainException("Key $useCaseId does not exist in " . $presentationFactory::class, 1665438299);
+        throw new \DomainException("Key $useCaseId does not exist in " . $caseFactory::class, 1665438299);
     }
 
-    public function useCaseCollectionFromFactory(StyleguideCaseFactoryInterface $presentationFactory): UseCaseCollection
+    public function useCaseCollectionFromFactory(StyleguideCaseFactoryInterface $caseFactory): UseCaseCollection
     {
         $useCaseCollection = [];
-        foreach ($this->getUseCasesFromPresentationFactory($presentationFactory) as $key => $component) {
+        foreach ($this->getUseCasesFromCaseFactory($caseFactory) as $key => $component) {
             $useCaseCollection[] = new UseCase(
                 UseCaseName::fromString($key),
                 UseCaseTitle::fromString($key),
@@ -51,10 +51,10 @@ class UseCaseService
     }
 
     /** @return \Traversable<string,SlotInterface> */
-    private function getUseCasesFromPresentationFactory(StyleguideCaseFactoryInterface $presentationFactory): \Traversable
+    private function getUseCasesFromCaseFactory(StyleguideCaseFactoryInterface $caseFactory): \Traversable
     {
         $existingKeys = [];
-        foreach ($presentationFactory->getUseCases() as $key => $presentationObject) {
+        foreach ($caseFactory->getUseCases() as $key => $presentationObject) {
             $keyAsStringAndNonZeroIndexed = is_numeric($key) ? (string)($key + 1) : $key;
             if (in_array($keyAsStringAndNonZeroIndexed, $existingKeys, true)) {
                 throw new \DomainException("Key $keyAsStringAndNonZeroIndexed already exists.");

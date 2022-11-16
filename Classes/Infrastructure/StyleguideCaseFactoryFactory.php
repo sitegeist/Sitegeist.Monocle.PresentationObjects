@@ -27,29 +27,29 @@ class StyleguideCaseFactoryFactory
 
     public function forPrototype(Prototype $prototype): StyleguideCaseFactoryInterface
     {
-        $presentationFactoryClassName = $prototype->evaluate('/__meta/styleguide/__meta/presentationFactory');
-        if ($presentationFactoryClassName === null) {
+        $caseFactoryClassName = $prototype->evaluate('/__meta/styleguide/__meta/caseFactory');
+        if ($caseFactoryClassName === null) {
             throw new \DomainException(
                 "Prototype "
                 . $prototype->getName()
                 . " has no StyleguideCaseFactoryInterface\n"
-                . " @styleguide.@presentationFactory is null "
+                . " @styleguide.@caseFactory is null "
                 , 1665501456
             );
         }
-        return $this->forPrototypeNameAndClassName($prototype->getName()->jsonSerialize(), $presentationFactoryClassName);
+        return $this->forPrototypeNameAndClassName($prototype->getName()->jsonSerialize(), $caseFactoryClassName);
     }
 
-    public function forPrototypeNameAndClassName(string $prototypeName, string $presentationFactoryClassName): StyleguideCaseFactoryInterface
+    public function forPrototypeNameAndClassName(string $prototypeName, string $caseFactoryClassName): StyleguideCaseFactoryInterface
     {
-        $presentationFactory = $this->objectManager->get($presentationFactoryClassName);
-        if ($presentationFactory instanceof StyleguideCaseFactoryInterface === false) {
+        $caseFactory = $this->objectManager->get($caseFactoryClassName);
+        if ($caseFactory instanceof StyleguideCaseFactoryInterface === false) {
             throw new \DomainException(
                 "StyleguideCaseFactoryInterface of prototype "
                 . $prototypeName
                 . "\n"
-                . " @styleguide.@presentationFactory = "
-                . json_encode($presentationFactoryClassName)
+                . " @styleguide.@caseFactory = "
+                . json_encode($caseFactoryClassName)
                 . "\n"
                 . " must implement "
                 . StyleguideCaseFactoryInterface::class
@@ -57,6 +57,6 @@ class StyleguideCaseFactoryFactory
                 1665438019
             );
         }
-        return $presentationFactory;
+        return $caseFactory;
     }
 }
