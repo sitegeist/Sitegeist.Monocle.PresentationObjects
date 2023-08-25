@@ -55,7 +55,7 @@ class PropSerializationService
             case StringPropType::class:
                 return $value;
             case EnumPropType::class:
-                /** @var $enum \BackedEnum */
+                /** @var \BackedEnum $enum */
                 $enum = $propType->className;
                 return $enum::from($value);
             case StringLikePropType::class:

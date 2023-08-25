@@ -33,8 +33,8 @@ class StyleguideCaseFactoryFactory
                 "Prototype "
                 . $prototype->getName()
                 . " has no StyleguideCaseFactoryInterface\n"
-                . " @styleguide.@caseFactory is null "
-                , 1665501456
+                . " @styleguide.@caseFactory is null ",
+                1665501456
             );
         }
         return $this->forPrototypeNameAndClassName($prototype->getName()->jsonSerialize(), $caseFactoryClassName);
@@ -52,8 +52,7 @@ class StyleguideCaseFactoryFactory
                 . json_encode($caseFactoryClassName)
                 . "\n"
                 . " must implement "
-                . StyleguideCaseFactoryInterface::class
-                ,
+                . StyleguideCaseFactoryInterface::class,
                 1665438019
             );
         }

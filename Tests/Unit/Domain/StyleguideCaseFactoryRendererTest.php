@@ -8,19 +8,18 @@ declare(strict_types=1);
 
 namespace Sitegeist\Monocle\PresentationObjects\Tests\Unit\Domain;
 
-use Neos\Flow\Tests\UnitTestCase;
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\Component\Component;
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\Component\ComponentName;
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\FusionNamespace;
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\PackageKey;
 use PackageFactory\AtomicFusion\PresentationObjects\Domain\Component\Props;
-use PHPUnit\Framework\Assert;
+use PHPUnit\Framework\TestCase;
 use Sitegeist\Monocle\PresentationObjects\Domain\StyleguideCaseFactoryRenderer;
 
 /**
  * Test cases for the StyleguideCaseFactoryRenderer
  */
-class StyleguideCaseFactoryRendererTest extends UnitTestCase
+class StyleguideCaseFactoryRendererTest extends TestCase
 {
     private ?Component $component = null;
 
@@ -64,7 +63,8 @@ class StyleguideCaseFactoryRendererTest extends UnitTestCase
 
     public function testGetFactoryContent(): void
     {
-        Assert::assertSame(
+        assert($this->component instanceof Component);
+        self::assertSame(
             '<?php
 
 /*

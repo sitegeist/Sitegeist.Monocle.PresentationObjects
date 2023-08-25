@@ -44,6 +44,9 @@ class PresentationObjectHelper implements ProtectedContextAwareInterface
         return IsComponent::isSatisfiedByClassName($componentName->getFullyQualifiedClassName());
     }
 
+    /**
+     * @param array<string,mixed> $editedProps
+     */
     public function createPresentationObject(
         string $prototypeName,
         string $caseFactoryClassName,
@@ -69,7 +72,6 @@ class PresentationObjectHelper implements ProtectedContextAwareInterface
 
         $unserializedEditedPropsAndUseCaseProps = [];
         foreach (Props::fromClassName($presentationObject::class) as $propName => $propType) {
-
             if (isset($editedProps[$propName]) === false) {
                 $unserializedEditedPropsAndUseCaseProps[$propName] = $presentationObject->{$propName};
                 continue;
